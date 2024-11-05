@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wfxa ┃ wfxa.lol</title>
+    <link rel="icon" href="https://cdn.discordapp.com/emojis/831029469292265482.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        /* Background Video */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: #1a1a1a;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Click to Enter Page */
+        #clickToEnter {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1;
+            transition: opacity 1s;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+        }
+
+        #content {
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        /* Main Container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            background: rgba(25, 25, 25, 0.3);
+            width: 550px;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        /* Profile Picture with Glow and Decoration */
+.pfp-container {
+    display: inline-block;
+    position: relative;
+    width: 128px;
+    height: 128px;
+    border-radius: 60px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    margin-bottom: 10px;
+}
+
+/* Profile Picture */
+.pfp {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Decorative Image */
+.decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the decorative image covers the entire PFP area */
+    pointer-events: none; /* Prevent hover events on the decoration */
+    opacity: 0.6; /* Adjust opacity as needed */
+    z-index: 1; /* Ensure it's above the profile picture */
+}
+
+
+        /* Username */
+        .username {
+            font-size: 28px;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 5);
+            margin-top: -10px;
+        }
+
+        /* Badges Container */
+        .badges-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 6px 12px;
+            margin-top: -80px;
+        }
+
+        /* Badge Style */
+        .badge {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .badge:hover {
+            transform: scale(1.1);
+        }
+
+        .badge img {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Tooltip Styling */
+.tooltip {
+    visibility: hidden; /* Use visibility instead of display */
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 4px 6px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffffff, 0 0 20px #ffffff;
+}
+
+.badge:hover .tooltip {
+    visibility: visible; /* Make tooltip visible on hover */
+    opacity: 1; /* Fade in */
+}
+
+        /* Typewriter Effect for Bio */
+        .bio-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 23px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+            height: 24px;
+            line-height: 24px;
+            overflow: hidden;
+        }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icon img {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+</head>
+<body>
+ <!-- Background Video -->
+<video class="background-video" id="bgVideo" autoplay loop>
+    <source src="https://cdn.xoa.me/uploads/1a6cccd0-bda0-45ce-8ef8-c07ca6506dab.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<!-- Click to Enter Page -->
+<div id="clickToEnter" onclick="enterSite()">
+    Click to enter
+</div>
+
+<script>
+    // Click to Enter
+    function enterSite() {
+        var video = document.getElementById("bgVideo");
+        video.play(); // Ensure the video plays with sound
+        document.getElementById("clickToEnter").style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById("clickToEnter").style.display = "none";
+            document.getElementById("content").style.opacity = "1";
+        }, 1000);
+    }
+
+    // Event Listener to Restart Video if Loop Fails
+    const video = document.getElementById("bgVideo");
+    video.addEventListener('ended', () => {
+        video.currentTime = 0; // Restart the video from the beginning
+        video.play();          // Play again with sound
+    });
+</script>
+
+
+    <!-- Main Content -->
+    <div id="content" class="container">
+        <div class="pfp-container">
+            <img src="https://files.catbox.moe/d7him2.jpg" alt="Profile Picture" class="pfp">
+            <img src="https://files.catbox.moe/4355l8.gif" alt="Decoration" class="decoration">
+        </div>        
+        <h1 class="username">wfxa</h1>
+        
+        <!-- Badges Container -->
+        <div class="badges-container">
+            <div class="badge">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/gun.png" alt="Pistol Badge">
+                <div class="tooltip">Pistol Badge</div>
+            </div>
+            <div class="badge">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/star.png" alt="Star Badge">
+                <div class="tooltip">Star Badge</div>
+            </div>
+            <div class="badge">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/crown.png" alt="Owner Badge">
+                <div class="tooltip">Owner Badge</div>
+            </div>
+            <div class="badge">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/verified-account.png" alt="Verified Badge">
+                <div class="tooltip">Verified Badge</div>
+            </div>
+        </div>
+        
+        <!-- Bio Text with Typewriter Effect -->
+        <div class="bio-text typewrite" data-type='["I was here", "999", "staff @ slat.cc"]' data-period="2000"></div>
+
+        <!-- Social Icons -->
+        <div class="social-icons">
+            <div class="social-icon">
+                <a href="https://twitter.com/" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/twitter.png" alt="Twitter"></a>
+            </div>
+            <div class="social-icon">
+                <a href="https://github.com/" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/github.png" alt="GitHub"></a>
+            </div>
+            <div class="social-icon">
+                <a href="https://discord.com/users/0" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/discord.png" alt="Discord"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Click to Enter
+        function enterSite() {
+            var video = document.getElementById("bgVideo");
+            video.play(); // Start playing the video
+            document.getElementById("clickToEnter").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("clickToEnter").style.display = "none";
+                document.getElementById("content").style.opacity = "1";
+            }, 1000);
+        }
+
+        // Typewriter Effect for Bio
+        class TypeWriter {
+            constructor(element, words, wait = 3000) {
+                this.element = element;
+                this.words = JSON.parse(words);
+                this.wordIndex = 0;
+                this.currentText = '';
+                this.wait = parseInt(wait, 10);
+                this.type();
+                this.isDeleting = false;
+            }
+
+            type() {
+                const fullText = this.words[this.wordIndex];
+                this.currentText = this.isDeleting 
+                    ? fullText.substring(0, this.currentText.length - 1) 
+                    : fullText.substring(0, this.currentText.length + 1);
+
+                this.element.innerHTML = this.currentText;
+
+                let typeSpeed = 200;
+
+                if (this.isDeleting) {
+                    typeSpeed /= 2;
+                }
+
+                if (!this.isDeleting && this.currentText === fullText) {
+                    typeSpeed = this.wait;
+                    this.isDeleting = true;
+                } else if (this.isDeleting && this.currentText === '') {
+                    this.isDeleting = false;
+                    this.wordIndex++;
+                    if (this.wordIndex === this.words.length) {
+                        this.wordIndex = 0;
+                    }
+                    typeSpeed = 500;
+                }
+
+                setTimeout(() => this.type(), typeSpeed);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            const element = document.querySelector('.bio-text');
+            const words = element.getAttribute('data-type');
+            const wait = element.getAttribute('data-period');
+            new TypeWriter(element, words, wait);
+        }
+    </script>
+</body>
+</html>
